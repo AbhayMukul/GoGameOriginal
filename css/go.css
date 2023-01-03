@@ -12,7 +12,7 @@
     height: 30px;
     width: 30px;
     padding: 0px;
-    background: #d8dcd6;
+    background: #f6f8f5;
     border-color: #ffffff #e6e6e6 #e6e6e6 #ffffff;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .besogo-container input[type='button'] {
-    background: #d8dcd6;
+    background: #f8faf8;
     border-color: #ffffff #e6e6e6 #e6e6e6 #ffffff;
 }
 
@@ -41,11 +41,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0px 5px;
+    padding: 10px 5px;
 }
 
 .besogo-panels > * {
-    margin: 3px 0px;
+    margin: 20px 0px;
 }
 
 .besogo-control {
@@ -60,7 +60,7 @@
 
 .besogo-names {
     flex: 0 0 auto;
-    width: 100%;
+    width: 90%;
 }
 
 .besogo-playerInfo {
@@ -74,7 +74,7 @@
     color: white;
     background: black;
     text-align: right;
-    padding: 5px;
+    padding: 15px;
 }
 
 .besogo-whiteInfo {
@@ -82,7 +82,7 @@
     color: black;
     background: white;
     text-align: left;
-    padding: 5px;
+    padding: 15px;
 }
 
 .besogo-blackCaps {
@@ -93,7 +93,7 @@
     float: right;
 }
 
-.besogo-comment {
+/* .besogo-comment {
     font-family: Georgia, serif;
     font-size: 12pt;
     white-space: pre-wrap;
@@ -102,16 +102,16 @@
     overflow: auto;
     flex: 1 1 60%;
     width: 100%;
-}
+} */
 
-.besogo-comment input[type='button'] {
+/* .besogo-comment input[type='button'] {
     float: right;
 }
 
 .besogo-comment textarea {
     height: 100%;
     width: 100%;
-}
+} */
 
 .besogo-gameInfo {
     padding: 5px;
