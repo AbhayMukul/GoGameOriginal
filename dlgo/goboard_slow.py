@@ -29,6 +29,16 @@ class Move():
     def resign(cls):
         return Move(is_resign = True)
 
+    def to_json(self):
+        if self.is_pass:
+            return {'is_pass': True}
+        
+        elif self.is_resign:
+            return {'is_resign': True}
+
+        else:
+            return {'point': self.point.to_json()}
+
 
 #Tracking connected groups of stones: Strings
 
