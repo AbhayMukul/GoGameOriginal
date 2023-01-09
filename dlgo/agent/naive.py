@@ -1,8 +1,8 @@
 import random
-from flask import Flask,render_template,jsonify,request
+from flask import Flask,render_template,request
 from dlgo.agent.base import Agent
 from dlgo.agent.helpers import is_point_an_eye
-from dlgo.goboard_slow import GameState, Move
+from dlgo.goboard_slow import GameState,Move
 from dlgo.gotypes import Point
 import json
 
@@ -43,7 +43,7 @@ def index():
 # Define a route to handle requests from the UI to make a move
 bot = RandomBot()
 
-@app.route('/make_move',methods = ['POST'])
+@app.route('/make_move',methods = ['GET'])
 
 def make_move():
     game_state = GameState.from_json(request.json)

@@ -1,5 +1,7 @@
 import copy
+from typing import Optional
 from dlgo.gotypes import Player
+from dlgo import gotypes
 
 class Move():
     def _init_(self,point=None, is_pass=False,is_resign=False):
@@ -147,8 +149,8 @@ class Board():
         #Returns the content of a point on the board: a Player 
         # if a stone is on that point, or else None
 
-        def get(self,point):
-            string = self._grid.get(point)
+        def get(self, point: gotypes.Point) -> Optional[str]:
+            return self._grid.get(point)
             if string is None:
                 return None
             return string.color
@@ -189,12 +191,12 @@ class Board():
 
 class GameState():
     
-    def _init_(self,board, next_player, previous, move):
+    def __init__(self,board, next_player, previous, move):
 
         self.board = board
         self.next_player = next_player
         self.previous_state = previous
-        self.move = move
+        self.last_move = move
     
 
     def apply_move(self,move):
@@ -207,32 +209,28 @@ class GameState():
         return GameState(next_board, self.next_player.other, self, move)
 
     @classmethod
-
     def new_game(cls, board_size):
-        if isinstance(board_size,int):
-            board_size = (board_size,board_size)
+        if isinstance(board_size, int):
+            board_size = (board_size, board_size)
         board = Board(*board_size)
-        return GameState(board, Player.black, None, None)
+        return cls(board, Player.black, None, None)
 
     
     # Deciding when a game of Go is over
 
     def is_over(self):
-
         if self.last_move is None:
             return False
-        
         if self.last_move.is_resign:
             return True
-
         second_last_move = self.previous_state.last_move
-
         if second_last_move is None:
             return False
-        
         return self.last_move.is_pass and second_last_move.is_pass
 
-
+    def __str__(self):
+        return f'Next Player: {self.next_player}\nBoard:\n{self.board}'
+        
     # Checking for Illegal Moves: Self-Capture, Ko
 
     # Checking if the move is Self-Capture or not
