@@ -4,6 +4,7 @@ from dlgo.gotypes import Player
 from dlgo import gotypes
 
 class Move():
+
     def _init_(self,point=None, is_pass=False,is_resign=False):
 
         #The assert statement at the beginning of the method 
@@ -33,13 +34,13 @@ class Move():
 
     def to_json(self):
         if self.is_pass:
-            return {'is_pass': True}
+            return Move(is_pass = True)
         
         elif self.is_resign:
-            return {'is_resign': True}
+            return Move(is_resign = True)
 
         else:
-            return {'point': self.point.to_json()}
+            return {'point': (self.point.row, self.point.col)}
 
 
 #Tracking connected groups of stones: Strings
@@ -150,7 +151,7 @@ class Board():
         # if a stone is on that point, or else None
 
         def get(self, point: gotypes.Point) -> Optional[str]:
-            return self._grid.get(point)
+            string = self._grid.get(point)
             if string is None:
                 return None
             return string.color
@@ -169,7 +170,7 @@ class Board():
 
         # Removing string of stones
 
-        def _remove_string(self, string):
+        def remove_string(self, string):
             
             for point in string.stones:
 
@@ -219,6 +220,7 @@ class GameState():
     # Deciding when a game of Go is over
 
     def is_over(self):
+        
         if self.last_move is None:
             return False
         if self.last_move.is_resign:

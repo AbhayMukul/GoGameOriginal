@@ -18,6 +18,7 @@ class Player(enum.Enum):
 # storing and accessing the attributes of the class.'
 
 class Point(namedtuple('Point','row col')):
+
     def neighbors(self):
         return[
             Point(self.row - 1, self.col),
@@ -25,5 +26,8 @@ class Point(namedtuple('Point','row col')):
             Point(self.row, self.col - 1),
             Point(self.row, self.col + 1),
         ]
+
+    def to_json(self):
+        return {'row': self.row, 'col': self.col}
 
     
