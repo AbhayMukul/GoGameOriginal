@@ -32,26 +32,26 @@ function updateBoardDisplay(move) {
 // making the bot move
 
 // Send an HTTP POST request to the '/make_move' route on the server
-async function makeBotMove() {
-  // Send an HTTP POST request to the '/make_move' route on the server
-  try {
-    const response = await fetch('http://127.0.0.1:5000/make_move', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(gameState)
-    });
+// async function makeBotMove() {
+//   // Send an HTTP POST request to the '/make_move' route on the server
+//   try {
+//     const response = await fetch('http://127.0.0.1:5000/make_move', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(gameState)
+//     });
 
-    if (response.ok) {
-      // If the request was successful, update the game state and board display with the bot's move
-      const moveData = await response.json();
-      updateBoardDisplay(moveData);
-      gameState = updateGameState(gameState,move);
-    } else {
-      console.log(`Error: ${response.status} ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     if (response.ok) {
+//       // If the request was successful, update the game state and board display with the bot's move
+//       const moveData = await response.json();
+      // updateBoardDisplay(moveData);
+      // gameState = updateGameState(gameState,move);
+//     } else {
+//       console.log(`Error: ${response.status} ${response.statusText}`);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
-setInterval(makeBotMove, 5000);
+// setInterval(makeBotMove, 5000);

@@ -2,6 +2,8 @@
     'use strict';
     var besogo = window.besogo = window.besogo || {}; // Establish our namespace
     besogo.VERSION = '0.0.2-alpha';
+
+    console.log("hello from go.js");
     
     besogo.create = function(container, options) {
         var editor, // Core editor object
@@ -20,6 +22,8 @@
             i, panelName; // Scratch iteration variables
     
         container.className += ' besogo-container'; // Marks this div as initialized
+
+        console.log("besogo.create");
     
         // Process options and set defaults
         options = options || {}; // Makes option checking simpler
@@ -312,6 +316,7 @@
     
         container.addEventListener('keydown', function(evt) {
             evt = evt || window.event;
+            // console.log(container + "");
             switch (evt.keyCode) {
                 case 33: // page up
                     editor.prevNode(10);
@@ -363,32 +368,6 @@
                 evt.preventDefault();
             }
         });
-    }
-    
-    // Parses SGF string and loads into editor
-    function parseAndLoad(text, editor) {
-        var sgf;
-        try {
-            sgf = besogo.parseSgf(text);
-        } catch (error) {
-            return; // Silently fail on parse error
-        }
-        besogo.loadSgf(sgf, editor);
-    }
-    
-    // Fetches text file at url from same domain
-    function fetchParseLoad(url, editor, path) {
-        var http = new XMLHttpRequest();
-    
-        http.onreadystatechange = function() {
-            if (http.readyState === 4 && http.status === 200) { // Successful fetch
-                parseAndLoad(http.responseText, editor);
-                navigatePath(editor, path);
-            }
-        };
-        http.overrideMimeType('text/plain'); // Prevents XML parsing and warnings
-        http.open("GET", url, true); // Asynchronous load
-        http.send();
     }
     
     function navigatePath(editor, path) {

@@ -171,7 +171,6 @@ besogo.makeControlPanel = function(container, editor) {
         });
         svg.appendChild(element);
 
-
         hideVariantButton = document.createElement('button');
         hideVariantButton.onclick = function() {
             editor.toggleVariantStyle(true); // Toggles show/hide variants
@@ -184,15 +183,6 @@ besogo.makeControlPanel = function(container, editor) {
         hideVariantElement = besogo.svgCross(50, 50, 'black');
         svg.appendChild(hideVariantElement);
 
-        // coordStyleButton = document.createElement('button');
-        // coordStyleButton.onclick = function() {
-        //     editor.toggleCoordStyle(); // Toggles coordinate style
-        // };
-        // coordStyleButton.title = 'Toggle coordinates';
-        // container.appendChild(coordStyleButton);
-        // svg = makeButtonContainer();
-        // coordStyleButton.appendChild(svg);
-        // svg.appendChild(besogo.svgLabel(50, 50, 'black', 'Coord'));
     } // END function drawStyleButtons
 
     // Makes an SVG container for the button graphics

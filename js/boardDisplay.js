@@ -77,6 +77,7 @@ besogo.makeBoardDisplay = function(container, editor) {
 
         // Redraw stones only if needed
         if (reinit || msg.navChange || msg.stoneChange) {
+            // console.log("redraw");
             redrawStones(current);
             redrawMarkup(current);
             redrawHover(current);
@@ -345,6 +346,7 @@ besogo.makeBoardDisplay = function(container, editor) {
                     y = svgPos(j);
                     stone = current.getStone(i, j);
                     color = (stone === -1) ? "white" : "black"; // White on black
+
                     if (lastMove && lastMove.x === i && lastMove.y === j) {
                         // Mark last move blue or violet if also a variant
                         color = checkVariants(variants, current, i, j) ?
@@ -353,6 +355,7 @@ besogo.makeBoardDisplay = function(container, editor) {
                         color = besogo.RED; // Natural variant marks are red
                     }
                     if (typeof mark === 'number') { // Markup is a basic shape
+                        console.log("color : " + color);
                         switch(mark) {
                             case 1:
                                 element = besogo.svgCircle(x, y, color);

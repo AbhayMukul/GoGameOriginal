@@ -1,9 +1,24 @@
 besogo.makeEditor = function(sizeX, sizeY) {
     'use strict';
     // Creates an associated game state tree
-    var root = besogo.makeGameRoot(sizeX, sizeY),
-        current = root, // Navigation cursor
 
+        var step = 0;
+        var x = 0;
+        var y = 0;
+        var board = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          ];
+
+        var root = besogo.makeGameRoot(sizeX, sizeY),
+        current = root, // Navigation cursor    
         listeners = [], // Listeners of general game/editor state changes
 
         // Enumeration of editor tools/modes
@@ -325,61 +340,110 @@ besogo.makeEditor = function(sizeX, sizeY) {
         }
     }
 
+    function updateBoard(x,y,color){
+        console.log(color);
+
+        board[y - 1][x - 1] = color;
+    }
+
+    function checkBoard(x,y){
+        if(board[y][x] == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function getAIMove(){
+        var x = Math.floor(Math.random() * 9) + 1;
+        var y = Math.floor(Math.random() * 9) + 1;
+
+        // board[y][x]
+
+        while(!checkBoard(x,y)){
+            x = Math.floor(Math.random() * 9) + 1;
+            y = Math.floor(Math.random() * 9) + 1;
+        }
+
+        return [x,y];
+    }
+
     // Handle click with application of selected tool
     function click(i, j, ctrlKey, shiftKey) {
+        // even is black 
+        // even is user
+        // -1
+
+        // odd is white
+        // odd is AI
+        // 1
+
         switch(tool) {
             case 'navOnly':
                 navigate(i, j, shiftKey);
                 break;
             case 'auto':
                 if (!navigate(i, j, shiftKey) && !shiftKey) { // Try to navigate to (i, j)
-                    playMove(i, j, 0, ctrlKey); // Play auto-color move if navigate fails
+
+                    console.log(board);
+
+                    if(step % 2 != 0){
+                        // AI
+
+                        let [botMoveX , botMoveY] = getAIMove();
+
+                        playMove(botMoveX,botMoveY,0,ctrlKey);
+                    }
+                    if(step % 2 == 0){
+                        playMove(i, j, 0, ctrlKey); // Play auto-color move if navigate fails
+                    }
+                    
                 }
                 break;
-            case 'playB':
-                playMove(i, j, -1, ctrlKey); // Black move
-                break;
-            case 'playW':
-                playMove(i, j, 1, ctrlKey); // White move
-                break;
-            case 'addB':
-                if (ctrlKey) {
-                    playMove(i, j, -1, true); // Play black
-                } else {
-                    placeSetup(i, j, -1); // Set black
-                }
-                break;
-            case 'addW':
-                if (ctrlKey) {
-                    playMove(i, j, 1, true); // Play white
-                } else {
-                    placeSetup(i, j, 1); // Set white
-                }
-                break;
-            case 'addE':
-                placeSetup(i, j, 0);
-                break;
-            case 'clrMark':
-                setMarkup(i, j, 0);
-                break;
-            case 'circle':
-                setMarkup(i, j, 1);
-                break;
-            case 'square':
-                setMarkup(i, j, 2);
-                break;
-            case 'triangle':
-                setMarkup(i, j, 3);
-                break;
-            case 'cross':
-                setMarkup(i, j, 4);
-                break;
-            case 'block':
-                setMarkup(i, j, 5);
-                break;
-            case 'label':
-                setMarkup(i, j, label);
-                break;
+            // case 'playB':
+            //     playMove(i, j, -1, ctrlKey); // Black move
+            //     break;
+            // case 'playW':
+            //     playMove(i, j, 1, ctrlKey); // White move
+            //     break;
+            // case 'addB':
+            //     if (ctrlKey) {
+            //         playMove(i, j, -1, true); // Play black
+            //     } else {
+            //         placeSetup(i, j, -1); // Set black
+            //     }
+            //     break;
+            // case 'addW':
+            //     if (ctrlKey) {
+            //         playMove(i, j, 1, true); // Play white
+            //     } else {
+            //         placeSetup(i, j, 1); // Set white
+            //     }
+            //     break;
+            // case 'addE':
+            //     placeSetup(i, j, 0);
+            //     break;
+            // case 'clrMark':
+            //     setMarkup(i, j, 0);
+            //     break;
+            // case 'circle':
+            //     setMarkup(i, j, 1);
+            //     break;
+            // case 'square':
+            //     setMarkup(i, j, 2);
+            //     break;
+            // case 'triangle':
+            //     setMarkup(i, j, 3);
+            //     break;
+            // case 'cross':
+            //     setMarkup(i, j, 4);
+            //     break;
+            // case 'block':
+            //     setMarkup(i, j, 5);
+            //     break;
+            // case 'label':
+            //     setMarkup(i, j, label);
+            //     break;
         }
     }
 
@@ -437,16 +501,36 @@ besogo.makeEditor = function(sizeX, sizeY) {
     // Set allowAll to truthy to allow illegal moves
     function playMove(i, j, color, allowAll) {
         var next;
+
         // Check if current node is immutable or root
         if ( !current.isMutable('move') || !current.parent ) {
             next = current.makeChild(); // Create a new child node
+            
             if (next.playMove(i, j, color, allowAll)) { // Play in new node
                 // Keep (add to game state tree) only if move succeeds
+
+                var piece = "black";
+
+                if(step % 2 != 0){
+                    // even step white
+                    piece = "white";
+                    
+                    updateBoard(i,j,1);
+                }else{
+                    piece = "black";
+                    
+                    updateBoard(i,j,-1);
+                }
+
+                step++;
+
                 current.addChild(next);
                 current = next;
+
                 // Notify tree change, navigation, and stone change
                 notifyListeners({ treeChange: true, navChange: true, stoneChange: true });
             }
+
         // Current node is mutable and not root
         } else if(current.playMove(i, j, color, allowAll)) { // Play in current
             // Only need to update if move succeeds
@@ -519,19 +603,6 @@ besogo.makeEditor = function(sizeX, sizeY) {
         listeners.push(listener);
     }
 
-    // Notify listeners with the given message object
-    //  Data sent to listeners:
-    //    tool: changed tool selection
-    //    label: changed next label
-    //    coord: changed coordinate system
-    //    variantStyle: changed variant style
-    //    gameInfo: changed game info
-    //    comment: changed comment in current node
-    //  Flags sent to listeners:
-    //    treeChange: nodes added or removed from tree
-    //    navChange: current switched to different node
-    //    stoneChange: stones modified in current node
-    //    markupChange: markup modified in current node
     function notifyListeners(msg, keepHistory) {
         var i;
         if (!keepHistory && msg.navChange) {
